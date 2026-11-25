@@ -1,0 +1,53 @@
+<svg viewBox="0 0 500 200" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RovianX Solutions Logo">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&amp;family=Space+Grotesk:wght@700;800&amp;display=swap');
+      .logo-brand-text {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-weight: 800;
+      }
+      .logo-sub-text {
+        font-family: 'Space Grotesk', 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-weight: 800;
+      }
+    </style>
+  </defs>
+
+  <g id="rovianx-official-logo">
+    <!-- Stylized R -->
+    <path
+      d="M 42 38 L 100 38 C 122 38 134 50 134 63 C 134 76 122 88 100 88 L 70 88 L 70 122 L 42 122 L 42 38 Z M 70 56 L 96 56 C 106 56 110 60 110 63 C 110 66 106 70 96 70 L 70 70 L 70 56 Z"
+      fill="#083887"
+    />
+    <polygon points="76,88 104,88 136,122 108,122" fill="#2563EB" />
+
+    <!-- 'ovian' Text -->
+    <text x="146" y="122" fill="#083887" font-size="78" letter-spacing="-0.025em" class="logo-brand-text">
+      ovian
+    </text>
+
+    <!-- Stylized X -->
+    <polygon points="370,38 398,38 454,122 426,122" fill="#1E3A68" />
+    <polygon points="454,38 426,38 370,122 398,122" fill="#7D9FC7" style="mix-blend-mode: multiply;" />
+
+    <!-- SOLUTIONS -->
+    <text x="248" y="158" text-anchor="middle" fill="#2563EB" font-size="21" letter-spacing="0.48em" class="logo-sub-text">
+      SOLUTIONS
+    </text>
+
+    <!-- Tagline Row -->
+    <line x1="42" y1="182" x2="108" y2="182" stroke="#083887" stroke-width="1.8" stroke-opacity="0.85" />
+    <text x="144" y="186" text-anchor="middle" fill="#083887" font-size="12.5" letter-spacing="0.22em" class="logo-sub-text">
+      IDEAS
+    </text>
+    <circle cx="183" cy="182" r="4.2" fill="#2563EB" />
+    <text x="248" y="186" text-anchor="middle" fill="#083887" font-size="12.5" letter-spacing="0.22em" class="logo-sub-text">
+      TECHNOLOGY
+    </text>
+    <circle cx="313" cy="182" r="4.2" fill="#2563EB" />
+    <text x="353" y="186" text-anchor="middle" fill="#083887" font-size="12.5" letter-spacing="0.22em" class="logo-sub-text">
+      IMPACT
+    </text>
+    <line x1="388" y1="182" x2="454" y2="182" stroke="#083887" stroke-width="1.8" stroke-opacity="0.85" />
+  </g>
+</svg>

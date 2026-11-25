@@ -1,0 +1,224 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  --color-brand-50: #f0f6fe;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-500: #2563eb;
+  --color-brand-600: #1d4ed8;
+  --color-brand-700: #1e40af;
+  --color-brand-800: #134074;
+  --color-brand-900: #0b2545;
+  --color-brand-950: #07162c;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    color: #0F172A;
+    background-color: #F8FAFC;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.025em;
+  }
+}
+
+/* Blog authoring workspace: quiet chrome and compact, reference-style cards. */
+.blog-admin-reference {
+  min-height: 100%;
+  background: #f5f8fc;
+}
+
+.blog-admin-reference [contenteditable='true'] {
+  line-height: 1.75;
+  min-height: 500px;
+  padding: 24px;
+}
+
+.blog-admin-reference [contenteditable='true']:empty::before {
+  color: #94a3b8;
+  content: attr(data-placeholder);
+  pointer-events: none;
+}
+
+.blog-admin-reference .toolbar-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.blog-admin-reference .toolbar-group-neutral { background: #f1f5f9; }
+.blog-admin-reference .toolbar-group-blue { background: #eff6ff; }
+.blog-admin-reference .toolbar-group-purple { background: #f5f3ff; }
+.blog-admin-reference .toolbar-group-green { background: #ecfdf5; }
+.blog-admin-reference .toolbar-group-orange { background: #fff7ed; }
+.blog-admin-reference .toolbar-group-pink { background: #fdf2f8; }
+
+.blog-admin-reference .toolbar-group-blue button { color: #2563eb; }
+.blog-admin-reference .toolbar-group-purple button { color: #7c3aed; }
+.blog-admin-reference .toolbar-group-green button { color: #059669; }
+.blog-admin-reference .toolbar-group-orange button { color: #ea580c; }
+.blog-admin-reference .toolbar-group-pink button { color: #db2777; }
+
+.blog-admin-reference select,
+.blog-admin-reference input,
+.blog-admin-reference textarea {
+  border-color: #cbd5e1;
+}
+
+.blog-admin-reference button:focus-visible,
+.blog-admin-reference input:focus-visible,
+.blog-admin-reference textarea:focus-visible,
+.blog-admin-reference select:focus-visible,
+.blog-admin-reference [contenteditable='true']:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.2);
+  outline-offset: 1px;
+}
+
+/* Hero Ecosystem Visual Animations */
+@keyframes heroFloat1 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-7px); }
+}
+
+@keyframes heroFloat2 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-9px); }
+}
+
+@keyframes heroFloat3 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes heroFloat4 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes heroFloatCenter {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-5px) scale(1.01); }
+}
+
+@keyframes heroPulseGlow {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.65; transform: scale(1.08); }
+}
+
+@keyframes heroLineFlow {
+  0% { stroke-dashoffset: 24; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes heroParticleDrift {
+  0%, 100% { transform: translate(0px, 0px); opacity: 0.4; }
+  50% { transform: translate(4px, -6px); opacity: 0.8; }
+}
+
+.animate-hero-float-1 {
+  animation: heroFloat1 6.5s ease-in-out infinite;
+}
+
+.animate-hero-float-2 {
+  animation: heroFloat2 7s ease-in-out infinite 0.8s;
+}
+
+.animate-hero-float-3 {
+  animation: heroFloat3 6.8s ease-in-out infinite 1.4s;
+}
+
+.animate-hero-float-4 {
+  animation: heroFloat4 7.2s ease-in-out infinite 2s;
+}
+
+.animate-hero-float-center {
+  animation: heroFloatCenter 5.5s ease-in-out infinite;
+}
+
+.animate-hero-pulse {
+  animation: heroPulseGlow 4s ease-in-out infinite;
+}
+
+.animate-hero-line {
+  animation: heroLineFlow 3s linear infinite;
+}
+
+.animate-hero-particle-1 {
+  animation: heroParticleDrift 5s ease-in-out infinite;
+}
+
+.animate-hero-particle-2 {
+  animation: heroParticleDrift 6.5s ease-in-out infinite 1.5s;
+}
+
+.animate-hero-particle-3 {
+  animation: heroParticleDrift 8s ease-in-out infinite 3s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-float-1,
+  .animate-hero-float-2,
+  .animate-hero-float-3,
+  .animate-hero-float-4,
+  .animate-hero-float-center,
+  .animate-hero-pulse,
+  .animate-hero-line,
+  .animate-hero-particle-1,
+  .animate-hero-particle-2,
+  .animate-hero-particle-3 {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Cinematic video hero */
+.hero-cinematic {
+  isolation: isolate;
+  contain: layout paint;
+}
+
+.hero-cinematic-video,
+.hero-cinematic-poster {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  object-fit: cover;
+}
+
+.hero-cinematic-left-veil {
+  background: linear-gradient(90deg, rgba(1, 9, 22, 0.91) 0%, rgba(1, 9, 22, 0.76) 36%, rgba(1, 9, 22, 0.2) 76%, transparent 100%);
+}
+
+.hero-cinematic-vignette {
+  background: radial-gradient(circle at 65% 42%, transparent 0%, rgba(1, 7, 17, 0.08) 46%, rgba(1, 7, 17, 0.68) 100%);
+}
+
+@media (max-width: 1023px) {
+  .hero-cinematic-left-veil {
+    background: linear-gradient(90deg, rgba(1, 9, 22, 0.86) 0%, rgba(1, 9, 22, 0.5) 58%, rgba(1, 9, 22, 0.1) 100%);
+  }
+
+}
+
+@media (max-width: 640px) {
+  .hero-cinematic-left-veil {
+    background: linear-gradient(90deg, rgba(1, 9, 22, 0.92) 0%, rgba(1, 9, 22, 0.72) 68%, rgba(1, 9, 22, 0.22) 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cinematic-video {
+    display: none;
+  }
+}
+
+
