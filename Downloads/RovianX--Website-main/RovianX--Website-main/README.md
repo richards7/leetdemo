@@ -69,7 +69,7 @@ The Student Hub landing page is available at `/student-hub/`. Its “Submit Your
 STUDENT_PROJECT_APPS_SCRIPT_URL=https://script.google.com/macros/s/AKfycbwqueXSHPz7zT0ovphTJoyShKLTUnEBjbII2s_fmMFuappfogakX1oDza7T9U3MyZcx/exec
 ```
 
-On Google Sheets, the script appends new submissions to columns A–F: Team Name, Team Lead, Team members, Theme, Project Title, and Project Description. Any existing data in column G (including earlier focus-area entries) is left unchanged; new submissions do not write to column G. After changing the Apps Script, deploy a new version for the updated validation and six-column append behavior to take effect.
+On Google Sheets, the script appends the original fields to columns A–F: Team Name, Team Lead, Team members, Theme, Project Title, and Project Description. It stores the five proposal details in H–L: Project Overview, Objectives, Technology Stack, Uniqueness & Innovation, and Target Users & Impact. Team Strength and Why Should We Select Your Team? are required and are stored after those details; the optional Project GitHub Repository URL is stored alongside them. Column G is left blank for new rows and all existing column G values (including old focus-area entries) remain untouched. After changing the Apps Script, deploy a new version for the updated validation and sheet mapping to take effect.
 
 Optional direct-service-account fallback variables are:
 

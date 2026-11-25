@@ -9,6 +9,14 @@ export interface StudentProjectSubmission {
   theme: string;
   projectTitle: string;
   projectDescription: string;
+  projectOverview: string;
+  objectives: string;
+  technologyStack: string;
+  uniqueness: string;
+  targetUsersImpact: string;
+  teamStrength: string;
+  selectionReason: string;
+  projectGithubRepo: string;
   submittedAt: string;
 }
 
@@ -312,7 +320,7 @@ export async function appendStudentProjectToGoogleSheet(submission: StudentProje
     if (!exists) {
       await sheets.spreadsheets.batchUpdate({
         spreadsheetId,
-        requestBody: { requests: [{ addSheet: { properties: { title: tabName, gridProperties: { rowCount: 1000, columnCount: 6 } } } }] },
+        requestBody: { requests: [{ addSheet: { properties: { title: tabName, gridProperties: { rowCount: 1000, columnCount: 15 } } } }] },
       });
     }
 
@@ -327,12 +335,94 @@ export async function appendStudentProjectToGoogleSheet(submission: StudentProje
       });
     }
 
+    const detailHeaders = [
+      'Project Overview',
+      'Objectives',
+      'Technology Stack',
+      'Uniqueness & Innovation',
+      'Target Users & Impact',
+    ];
+    const extensionResponse = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: `${tabName}!H1:L1`,
+    });
+    const extensionHeaders = extensionResponse.data.values?.[0] as string[] | undefined;
+    if (!extensionHeaders || extensionHeaders.every((header) => !String(header || '').trim())) {
+      const extensionData = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: `${tabName}!H2:L`,
+      });
+      const extensionColumnsInUse = (extensionData.data.values || []).some((row) =>
+        row.some((value) => String(value || '').trim())
+      );
+      if (extensionColumnsInUse) {
+        throw new Error('Student proposal detail columns H:L already contain data; refusing to overwrite sheet data.');
+      }
+      await sheets.spreadsheets.values.update({
+        spreadsheetId,
+        range: `${tabName}!H1:L1`,
+        valueInputOption: 'USER_ENTERED',
+        requestBody: { values: [detailHeaders] },
+      });
+    } else if (detailHeaders.some((header, index) => extensionHeaders[index]?.trim() !== header)) {
+      throw new Error('Student proposal detail columns H:L already contain different headers; refusing to overwrite sheet data.');
+    }
+
+    const teamHeaders = [
+      'Team Strength',
+      'Why Should We Select Your Team?',
+      'Project GitHub Repository (Optional)',
+    ];
+    const teamHeaderResponse = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: `${tabName}!M1:O1`,
+    });
+    const existingTeamHeaders = teamHeaderResponse.data.values?.[0] as string[] | undefined;
+    if (!existingTeamHeaders || existingTeamHeaders.every((header) => !String(header || '').trim())) {
+      const teamData = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: `${tabName}!M2:O`,
+      });
+      const teamColumnsInUse = (teamData.data.values || []).some((row) =>
+        row.some((value) => String(value || '').trim())
+      );
+      if (teamColumnsInUse) {
+        throw new Error('Student team detail columns M:O already contain data; refusing to overwrite sheet data.');
+      }
+      await sheets.spreadsheets.values.update({
+        spreadsheetId,
+        range: `${tabName}!M1:O1`,
+        valueInputOption: 'USER_ENTERED',
+        requestBody: { values: [teamHeaders] },
+      });
+    } else if (teamHeaders.some((header, index) => existingTeamHeaders[index]?.trim() !== header)) {
+      throw new Error('Student team detail columns M:O already contain different headers; refusing to overwrite sheet data.');
+    }
+
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: `${tabName}!A:F`,
+      range: `${tabName}!A:O`,
       valueInputOption: 'USER_ENTERED',
       insertDataOption: 'INSERT_ROWS',
-      requestBody: { values: [[submission.teamName, submission.teamLead, submission.teamMembers, submission.theme, submission.projectTitle, submission.projectDescription]] },
+      requestBody: {
+        values: [[
+          submission.teamName,
+          submission.teamLead,
+          submission.teamMembers,
+          submission.theme,
+          submission.projectTitle,
+          submission.projectDescription,
+          '',
+          submission.projectOverview,
+          submission.objectives,
+          submission.technologyStack,
+          submission.uniqueness,
+          submission.targetUsersImpact,
+          submission.teamStrength,
+          submission.selectionReason,
+          submission.projectGithubRepo,
+        ]],
+      },
     });
 
     return { success: true, syncedToGoogleSheets: true, message: 'Project proposal saved to Google Sheets.', sheetId: spreadsheetId, clientEmail: creds.client_email };

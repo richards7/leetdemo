@@ -7,7 +7,28 @@ interface StudentProjectSubmission {
   theme: string;
   projectTitle: string;
   projectDescription: string;
+  projectOverview: string;
+  objectives: string;
+  technologyStack: string;
+  uniqueness: string;
+  targetUsersImpact: string;
+  teamStrength: string;
+  selectionReason: string;
+  projectGithubRepo: string;
 }
+
+const ALLOWED_THEMES = new Set([
+  "Sustainability",
+  "Women safety and security",
+  "Cyber threats and challenges",
+  "Research and development",
+  "Open source contribution",
+  "Profile building and career mapping",
+  "Climatic change",
+  "Planet and space",
+  "Branding and money making",
+  "Everyday life",
+]);
 
 function getText(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
@@ -32,6 +53,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     theme: getText(body.theme),
     projectTitle: getText(body.projectTitle),
     projectDescription: getText(body.projectDescription),
+    projectOverview: getText(body.projectOverview),
+    objectives: getText(body.objectives),
+    technologyStack: getText(body.technologyStack),
+    uniqueness: getText(body.uniqueness),
+    targetUsersImpact: getText(body.targetUsersImpact),
+    teamStrength: getText(body.teamStrength),
+    selectionReason: getText(body.selectionReason),
+    projectGithubRepo: getText(body.projectGithubRepo),
   };
 
   const requiredFields: Array<[keyof StudentProjectSubmission, string]> = [
@@ -41,6 +70,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     ["theme", "Theme"],
     ["projectTitle", "Project title"],
     ["projectDescription", "Project description"],
+    ["projectOverview", "Project overview"],
+    ["objectives", "Objectives"],
+    ["technologyStack", "Technology stack"],
+    ["uniqueness", "Uniqueness and innovation"],
+    ["targetUsersImpact", "Target users and impact"],
+    ["teamStrength", "Team strength"],
+    ["selectionReason", "Why your team should be selected"],
   ];
 
   for (const [field, label] of requiredFields) {
@@ -48,8 +84,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ success: false, error: `${label} is required.` });
     }
   }
+  if (!ALLOWED_THEMES.has(submission.theme)) {
+    return res.status(400).json({ success: false, error: "Please choose a valid project theme." });
+  }
   if (submission.projectDescription.length < 30) {
     return res.status(400).json({ success: false, error: "Project description must be at least 30 characters." });
+  }
+  if (submission.projectGithubRepo && !/^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+(?:\.git)?\/?$/.test(submission.projectGithubRepo)) {
+    return res.status(400).json({ success: false, error: "Enter a valid GitHub repository URL or leave it blank." });
   }
 
   const appsScriptUrl = process.env.STUDENT_PROJECT_APPS_SCRIPT_URL?.trim();

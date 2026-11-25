@@ -13,6 +13,14 @@ export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPage
   const [teamMembers, setTeamMembers] = useState('');
   const [projectTitle, setProjectTitle] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
+  const [projectOverview, setProjectOverview] = useState('');
+  const [objectives, setObjectives] = useState('');
+  const [technologyStack, setTechnologyStack] = useState('');
+  const [uniqueness, setUniqueness] = useState('');
+  const [targetUsersImpact, setTargetUsersImpact] = useState('');
+  const [teamStrength, setTeamStrength] = useState('');
+  const [selectionReason, setSelectionReason] = useState('');
+  const [projectGithubRepo, setProjectGithubRepo] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -30,12 +38,30 @@ export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPage
     setError('');
     setSuccess('');
 
-    if (!teamName.trim() || !teamLead.trim() || !teamMembers.trim() || !theme || !projectTitle.trim() || !projectDescription.trim()) {
+    if (
+      !teamName.trim() ||
+      !teamLead.trim() ||
+      !teamMembers.trim() ||
+      !theme ||
+      !projectTitle.trim() ||
+      !projectDescription.trim() ||
+      !projectOverview.trim() ||
+      !objectives.trim() ||
+      !technologyStack.trim() ||
+      !uniqueness.trim() ||
+      !targetUsersImpact.trim() ||
+      !teamStrength.trim() ||
+      !selectionReason.trim()
+    ) {
       setError('Please complete all required fields.');
       return;
     }
     if (projectDescription.trim().length < 30) {
       setError('Project description must be at least 30 characters.');
+      return;
+    }
+    if (projectGithubRepo.trim() && !/^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+(?:\.git)?\/?$/.test(projectGithubRepo.trim())) {
+      setError('Enter a valid GitHub repository URL or leave it blank.');
       return;
     }
 
@@ -51,6 +77,14 @@ export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPage
           theme,
           projectTitle: projectTitle.trim(),
           projectDescription: projectDescription.trim(),
+          projectOverview: projectOverview.trim(),
+          objectives: objectives.trim(),
+          technologyStack: technologyStack.trim(),
+          uniqueness: uniqueness.trim(),
+          targetUsersImpact: targetUsersImpact.trim(),
+          teamStrength: teamStrength.trim(),
+          selectionReason: selectionReason.trim(),
+          projectGithubRepo: projectGithubRepo.trim(),
           submittedAt: new Date().toISOString(),
         }),
       });
@@ -66,6 +100,14 @@ export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPage
       setTheme('');
       setProjectTitle('');
       setProjectDescription('');
+      setProjectOverview('');
+      setObjectives('');
+      setTechnologyStack('');
+      setUniqueness('');
+      setTargetUsersImpact('');
+      setTeamStrength('');
+      setSelectionReason('');
+      setProjectGithubRepo('');
     } catch (submitError: unknown) {
       setError(submitError instanceof Error ? submitError.message : 'Something went wrong. Please try again.');
     } finally {
@@ -132,6 +174,31 @@ export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPage
               <label className="text-sm font-semibold text-slate-700 sm:col-span-2">Project Description *
                 <textarea className={`${inputClass} min-h-36 resize-y`} value={projectDescription} onChange={(event) => setProjectDescription(event.target.value)} placeholder="Describe the problem, your solution, intended users, and expected impact (minimum 30 characters)." minLength={30} required />
                 <span className="mt-1.5 block text-right text-xs font-normal text-slate-400">{projectDescription.length} characters</span>
+              </label>
+              <label className="text-sm font-semibold text-slate-700 sm:col-span-2">Project Overview *
+                <textarea className={`${inputClass} min-h-28 resize-y`} value={projectOverview} onChange={(event) => setProjectOverview(event.target.value)} placeholder="Briefly explain your project and how it works." required />
+              </label>
+              <label className="text-sm font-semibold text-slate-700 sm:col-span-2">Objectives *
+                <textarea className={`${inputClass} min-h-28 resize-y`} value={objectives} onChange={(event) => setObjectives(event.target.value)} placeholder="What are the main goals and expected outcomes of your project?" required />
+              </label>
+              <label className="text-sm font-semibold text-slate-700 sm:col-span-2">Technology Stack *
+                <textarea className={`${inputClass} min-h-28 resize-y`} value={technologyStack} onChange={(event) => setTechnologyStack(event.target.value)} placeholder="List the programming languages, frameworks, tools, APIs, and platforms you plan to use." required />
+              </label>
+              <label className="text-sm font-semibold text-slate-700 sm:col-span-2">Uniqueness &amp; Innovation *
+                <textarea className={`${inputClass} min-h-28 resize-y`} value={uniqueness} onChange={(event) => setUniqueness(event.target.value)} placeholder="How is your project different from existing solutions?" required />
+              </label>
+              <label className="text-sm font-semibold text-slate-700 sm:col-span-2">Target Users &amp; Impact *
+                <textarea className={`${inputClass} min-h-28 resize-y`} value={targetUsersImpact} onChange={(event) => setTargetUsersImpact(event.target.value)} placeholder="Who will benefit from your project, and what impact could it create?" required />
+              </label>
+              <label className="text-sm font-semibold text-slate-700 sm:col-span-2">What is the strength of your team? *
+                <textarea className={`${inputClass} min-h-28 resize-y`} value={teamStrength} onChange={(event) => setTeamStrength(event.target.value)} placeholder="Describe your team's skills, experience, collaboration, or strengths relevant to this project." required />
+              </label>
+              <label className="text-sm font-semibold text-slate-700 sm:col-span-2">Why should we select your team? *
+                <textarea className={`${inputClass} min-h-28 resize-y`} value={selectionReason} onChange={(event) => setSelectionReason(event.target.value)} placeholder="Explain what makes your team and proposal a strong fit for the hackathon." required />
+              </label>
+              <label className="text-sm font-semibold text-slate-700 sm:col-span-2">Project GitHub Repository (Optional)
+                <input type="url" className={inputClass} value={projectGithubRepo} onChange={(event) => setProjectGithubRepo(event.target.value)} placeholder="https://github.com/owner/repository" />
+                <span className="mt-1.5 block text-xs font-normal text-slate-500">Share a GitHub repository if you have one. This field is optional.</span>
               </label>
             </div>
 

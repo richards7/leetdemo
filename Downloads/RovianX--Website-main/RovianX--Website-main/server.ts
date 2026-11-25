@@ -87,9 +87,25 @@ async function startServer() {
   app.post("/api/student-projects", async (req, res) => {
     try {
       const body = req.body || {};
+      const allowedThemes = [
+        'Sustainability',
+        'Women safety and security',
+        'Cyber threats and challenges',
+        'Research and development',
+        'Open source contribution',
+        'Profile building and career mapping',
+        'Climatic change',
+        'Planet and space',
+        'Branding and money making',
+        'Everyday life',
+      ];
       const requiredTextFields = {
         teamName: 'Team name', teamLead: 'Team lead', teamMembers: 'Team members',
-        theme: 'Theme', projectTitle: 'Project title', projectDescription: 'Project description'
+        theme: 'Theme', projectTitle: 'Project title', projectDescription: 'Project description',
+        projectOverview: 'Project overview', objectives: 'Objectives',
+        technologyStack: 'Technology stack', uniqueness: 'Uniqueness and innovation',
+        targetUsersImpact: 'Target users and impact', teamStrength: 'Team strength',
+        selectionReason: 'Why your team should be selected'
       } as const;
 
       for (const [key, label] of Object.entries(requiredTextFields)) {
@@ -102,6 +118,15 @@ async function startServer() {
         res.status(400).json({ success: false, error: 'Project description must be at least 30 characters.' });
         return;
       }
+      if (!allowedThemes.includes(String(body.theme).trim())) {
+        res.status(400).json({ success: false, error: 'Please choose a valid project theme.' });
+        return;
+      }
+      const projectGithubRepo = String(body.projectGithubRepo || '').trim();
+      if (projectGithubRepo && !/^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+(?:\.git)?\/?$/.test(projectGithubRepo)) {
+        res.status(400).json({ success: false, error: 'Enter a valid GitHub repository URL or leave it blank.' });
+        return;
+      }
 
       const submission = {
         teamName: String(body.teamName).trim(),
@@ -110,6 +135,14 @@ async function startServer() {
         theme: String(body.theme).trim(),
         projectTitle: String(body.projectTitle).trim(),
         projectDescription: String(body.projectDescription).trim(),
+        projectOverview: String(body.projectOverview).trim(),
+        objectives: String(body.objectives).trim(),
+        technologyStack: String(body.technologyStack).trim(),
+        uniqueness: String(body.uniqueness).trim(),
+        targetUsersImpact: String(body.targetUsersImpact).trim(),
+        teamStrength: String(body.teamStrength).trim(),
+        selectionReason: String(body.selectionReason).trim(),
+        projectGithubRepo,
         submittedAt: String(body.submittedAt || new Date().toISOString()),
       };
 
