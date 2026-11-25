@@ -22,11 +22,14 @@ function handleRequest(e) {
     const data = e.parameter && Object.keys(e.parameter).length
       ? e.parameter
       : JSON.parse(e.postData.contents);
-    const fields = ['teamName', 'teamLead', 'teamMembers', 'theme', 'projectFocusArea', 'projectTitle', 'projectDescription'];
+    const fields = ['teamName', 'teamLead', 'teamMembers', 'theme', 'projectTitle', 'projectDescription'];
     for (const field of fields) {
       if (!String(data[field] || '').trim()) {
         return jsonResponse({ success: false, error: field + ' is required.' }, 400);
       }
+    }
+    if (Object.prototype.hasOwnProperty.call(data, 'projectFocusArea') && String(data.projectFocusArea || '').trim()) {
+      return jsonResponse({ success: false, error: 'Project Focus Area is no longer collected. Please update the website integration.' }, 400);
     }
     if (String(data.projectDescription).trim().length < 30) {
       return jsonResponse({ success: false, error: 'Project description must be at least 30 characters.' }, 400);
@@ -38,15 +41,13 @@ function handleRequest(e) {
       sheet = spreadsheet.insertSheet(SHEET_NAME);
     }
 
-    // Adds only the missing G1 header; all existing rows and columns remain untouched.
-    const headers = sheet.getRange(1, 1, 1, 7).getValues()[0];
+    // Initialize headers only on an empty sheet; preserve existing headers and data.
+    const headers = sheet.getRange(1, 1, 1, 6).getValues()[0];
     const requiredHeaders = [
-      'Team Name', 'Team Lead', 'Team members', 'Theme', 'Project Title', 'Project Description', 'Project Focus Area'
+      'Team Name', 'Team Lead', 'Team members', 'Theme', 'Project Title', 'Project Description'
     ];
     if (!headers.some((value) => String(value || '').trim())) {
-      sheet.getRange(1, 1, 1, 7).setValues([requiredHeaders]);
-    } else if (!String(headers[6] || '').trim()) {
-      sheet.getRange(1, 7).setValue('Project Focus Area');
+      sheet.getRange(1, 1, 1, 6).setValues([requiredHeaders]);
     }
 
     sheet.appendRow([
@@ -55,8 +56,7 @@ function handleRequest(e) {
       String(data.teamMembers).trim(),
       String(data.theme).trim(),
       String(data.projectTitle).trim(),
-      String(data.projectDescription).trim(),
-      String(data.projectFocusArea).trim()
+      String(data.projectDescription).trim()
     ]);
 
     return jsonResponse({ success: true, sheetName: SHEET_NAME, sheetId: spreadsheet.getId() });

@@ -8,7 +8,6 @@ interface StudentProjectSubmissionPageProps {
 
 export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPageProps> = ({ onBackToHub }) => {
   const [theme, setTheme] = useState('');
-  const [focusArea, setFocusArea] = useState('');
   const [teamName, setTeamName] = useState('');
   const [teamLead, setTeamLead] = useState('');
   const [teamMembers, setTeamMembers] = useState('');
@@ -31,7 +30,7 @@ export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPage
     setError('');
     setSuccess('');
 
-    if (!teamName.trim() || !teamLead.trim() || !teamMembers.trim() || !theme || !focusArea || !projectTitle.trim() || !projectDescription.trim()) {
+    if (!teamName.trim() || !teamLead.trim() || !teamMembers.trim() || !theme || !projectTitle.trim() || !projectDescription.trim()) {
       setError('Please complete all required fields.');
       return;
     }
@@ -50,7 +49,6 @@ export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPage
           teamLead: teamLead.trim(),
           teamMembers: teamMembers.trim(),
           theme,
-          projectFocusArea: focusArea,
           projectTitle: projectTitle.trim(),
           projectDescription: projectDescription.trim(),
           submittedAt: new Date().toISOString(),
@@ -66,7 +64,6 @@ export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPage
       setTeamLead('');
       setTeamMembers('');
       setTheme('');
-      setFocusArea('');
       setProjectTitle('');
       setProjectDescription('');
     } catch (submitError: unknown) {
@@ -124,15 +121,9 @@ export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPage
                 <input className={inputClass} value={teamMembers} onChange={(event) => setTeamMembers(event.target.value)} placeholder="Names separated by commas" required />
               </label>
               <label className="text-sm font-semibold text-slate-700">Theme *
-                <select className={inputClass} value={theme} onChange={(event) => { setTheme(event.target.value); setFocusArea(''); }} required>
+                <select className={inputClass} value={theme} onChange={(event) => setTheme(event.target.value)} required>
                   <option value="">Select a theme</option>
                   {Object.keys(STUDENT_PROJECT_THEMES).map((name) => <option key={name} value={name}>{name}</option>)}
-                </select>
-              </label>
-              <label className="text-sm font-semibold text-slate-700">Project Focus Area *
-                <select className={`${inputClass} disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400`} value={focusArea} onChange={(event) => setFocusArea(event.target.value)} disabled={!theme} required>
-                  <option value="">{theme ? 'Select a focus area' : 'Select a theme first'}</option>
-                  {selectedTheme?.focusAreas.map((area) => <option key={area} value={area}>{area}</option>)}
                 </select>
               </label>
               <label className="text-sm font-semibold text-slate-700 sm:col-span-2">Project Title *

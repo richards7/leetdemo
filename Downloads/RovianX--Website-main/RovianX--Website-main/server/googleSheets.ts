@@ -7,7 +7,6 @@ export interface StudentProjectSubmission {
   teamLead: string;
   teamMembers: string;
   theme: string;
-  projectFocusArea: string;
   projectTitle: string;
   projectDescription: string;
   submittedAt: string;
@@ -313,34 +312,27 @@ export async function appendStudentProjectToGoogleSheet(submission: StudentProje
     if (!exists) {
       await sheets.spreadsheets.batchUpdate({
         spreadsheetId,
-        requestBody: { requests: [{ addSheet: { properties: { title: tabName, gridProperties: { rowCount: 1000, columnCount: 7 } } } }] },
+        requestBody: { requests: [{ addSheet: { properties: { title: tabName, gridProperties: { rowCount: 1000, columnCount: 6 } } } }] },
       });
     }
 
-    const headerResponse = await sheets.spreadsheets.values.get({ spreadsheetId, range: `${tabName}!A1:G1` });
+    const headerResponse = await sheets.spreadsheets.values.get({ spreadsheetId, range: `${tabName}!A1:F1` });
     const headers = headerResponse.data.values?.[0] as string[] | undefined;
     if (!headers || headers.length === 0) {
       await sheets.spreadsheets.values.update({
         spreadsheetId,
-        range: `${tabName}!A1:G1`,
+        range: `${tabName}!A1:F1`,
         valueInputOption: 'USER_ENTERED',
-        requestBody: { values: [['Team Name', 'Team Lead', 'Team members', 'Theme', 'Project Title', 'Project Description', 'Project Focus Area']] },
-      });
-    } else if (headers.length < 7 || !headers[6]?.trim()) {
-      await sheets.spreadsheets.values.update({
-        spreadsheetId,
-        range: `${tabName}!G1`,
-        valueInputOption: 'USER_ENTERED',
-        requestBody: { values: [['Project Focus Area']] },
+        requestBody: { values: [['Team Name', 'Team Lead', 'Team members', 'Theme', 'Project Title', 'Project Description']] },
       });
     }
 
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: `${tabName}!A:G`,
+      range: `${tabName}!A:F`,
       valueInputOption: 'USER_ENTERED',
       insertDataOption: 'INSERT_ROWS',
-      requestBody: { values: [[submission.teamName, submission.teamLead, submission.teamMembers, submission.theme, submission.projectTitle, submission.projectDescription, submission.projectFocusArea]] },
+      requestBody: { values: [[submission.teamName, submission.teamLead, submission.teamMembers, submission.theme, submission.projectTitle, submission.projectDescription]] },
     });
 
     return { success: true, syncedToGoogleSheets: true, message: 'Project proposal saved to Google Sheets.', sheetId: spreadsheetId, clientEmail: creds.client_email };

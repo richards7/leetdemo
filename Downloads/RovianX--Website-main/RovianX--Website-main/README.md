@@ -51,7 +51,7 @@ Blog API routes are under `/api/blog`, including public posts/categories, admin 
 
 ## Student Project Submission Hub
 
-The Student Hub landing page is available at `/student-hub/`. Its “Submit Your Project Idea” buttons open the dedicated form at `/student-hub/submit/`. Theme descriptions, beneficiaries, and dependent focus-area options are maintained in `src/data/studentProjectThemes.ts`.
+The Student Hub landing page is available at `/student-hub/`. Its “Submit Your Project Idea” buttons open the dedicated form at `/student-hub/submit/`. Theme descriptions and beneficiary information are maintained in `src/data/studentProjectThemes.ts`.
 
 ### Deploy the Google Apps Script
 
@@ -69,7 +69,7 @@ The Student Hub landing page is available at `/student-hub/`. Its “Submit Your
 STUDENT_PROJECT_APPS_SCRIPT_URL=https://script.google.com/macros/s/AKfycbwqueXSHPz7zT0ovphTJoyShKLTUnEBjbII2s_fmMFuappfogakX1oDza7T9U3MyZcx/exec
 ```
 
-On Google Sheets, the script appends submissions to columns A–G in this order: Team Name, Team Lead, Team members, Theme, Project Title, Project Description, and Project Focus Area. It creates the Project Focus Area header in G1 only when G1 is empty. Existing sheet rows and earlier data are not overwritten.
+On Google Sheets, the script appends new submissions to columns A–F: Team Name, Team Lead, Team members, Theme, Project Title, and Project Description. Any existing data in column G (including earlier focus-area entries) is left unchanged; new submissions do not write to column G. After changing the Apps Script, deploy a new version for the updated validation and six-column append behavior to take effect.
 
 Optional direct-service-account fallback variables are:
 

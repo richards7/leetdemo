@@ -89,8 +89,7 @@ async function startServer() {
       const body = req.body || {};
       const requiredTextFields = {
         teamName: 'Team name', teamLead: 'Team lead', teamMembers: 'Team members',
-        theme: 'Theme', projectFocusArea: 'Project focus area',
-        projectTitle: 'Project title', projectDescription: 'Project description'
+        theme: 'Theme', projectTitle: 'Project title', projectDescription: 'Project description'
       } as const;
 
       for (const [key, label] of Object.entries(requiredTextFields)) {
@@ -109,7 +108,6 @@ async function startServer() {
         teamLead: String(body.teamLead).trim(),
         teamMembers: String(body.teamMembers).trim(),
         theme: String(body.theme).trim(),
-        projectFocusArea: String(body.projectFocusArea).trim(),
         projectTitle: String(body.projectTitle).trim(),
         projectDescription: String(body.projectDescription).trim(),
         submittedAt: String(body.submittedAt || new Date().toISOString()),
