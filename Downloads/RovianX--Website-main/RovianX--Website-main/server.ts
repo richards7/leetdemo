@@ -85,6 +85,12 @@ async function startServer() {
   });
 
   app.post("/api/student-projects", async (req, res) => {
+    res.status(403).json({
+      success: false,
+      error: 'Time is up! The 36-hour hackathon submission period has ended, and project proposals are no longer being accepted.',
+    });
+    return;
+
     try {
       const body = req.body || {};
       const allowedThemes = [

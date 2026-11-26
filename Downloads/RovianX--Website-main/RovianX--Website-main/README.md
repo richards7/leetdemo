@@ -53,6 +53,8 @@ Blog API routes are under `/api/blog`, including public posts/categories, admin 
 
 The Student Hub landing page is available at `/student-hub/`. Its “Submit Your Project Idea” buttons open the dedicated form at `/student-hub/submit/`. Theme descriptions and beneficiary information are maintained in `src/data/studentProjectThemes.ts`.
 
+The 36-hour hackathon submission period is currently closed. The form displays a closure notice, and the website API, local server endpoint, and Apps Script reject new submissions. To reopen submissions, remove the closure guards from those endpoints and restore the form UI in `StudentProjectSubmissionPage.tsx`, then redeploy the website and Apps Script.
+
 ### Deploy the Google Apps Script
 
 1. Open Google Sheets and create or open the spreadsheet named `Student_Project_Proposals`.

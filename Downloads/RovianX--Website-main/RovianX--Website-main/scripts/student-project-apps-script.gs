@@ -38,6 +38,11 @@ function doOptions(e) {
 }
 
 function handleRequest(e) {
+  return jsonResponse({
+    success: false,
+    error: 'Time is up! The 36-hour hackathon submission period has ended, and project proposals are no longer being accepted.'
+  }, 403);
+
   try {
     if (!e || !e.postData || !e.postData.contents) {
       return jsonResponse({ success: false, error: 'No submission data received.' }, 400);

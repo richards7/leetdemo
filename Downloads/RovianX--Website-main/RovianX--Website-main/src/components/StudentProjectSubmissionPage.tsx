@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { ArrowLeft, CheckCircle2, Loader2, Send } from 'lucide-react';
 import { STUDENT_PROJECT_THEMES } from '../data/studentProjectThemes';
 
+const SUBMISSIONS_CLOSED = true;
+const SUBMISSIONS_CLOSED_MESSAGE = 'Time is up! The 36-hour hackathon submission period has ended, and project proposals are no longer being accepted.';
+
 interface StudentProjectSubmissionPageProps {
   onBackToHub: () => void;
 }
@@ -37,7 +40,6 @@ export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPage
     event.preventDefault();
     setError('');
     setSuccess('');
-
     if (
       !teamName.trim() ||
       !teamLead.trim() ||
@@ -130,7 +132,11 @@ export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPage
           <p className="mt-4 text-base leading-7 text-slate-600 sm:text-lg">Tell us about your team, the challenge you’re exploring, and the solution you want to build.</p>
         </div>
 
-        <div className="grid items-start gap-6 lg:grid-cols-[0.72fr_1.28fr]">
+        {SUBMISSIONS_CLOSED ? <div role="status" className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-amber-950 shadow-sm sm:p-8">
+          <h2 className="text-xl font-bold sm:text-2xl">Submissions are closed</h2>
+          <p className="mt-2 text-sm leading-6 sm:text-base">{SUBMISSIONS_CLOSED_MESSAGE}</p>
+        </div>
+        : <div className="grid items-start gap-6 lg:grid-cols-[0.72fr_1.28fr]">
           <aside className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 lg:sticky lg:top-28">
             <h2 className="text-lg font-bold text-slate-950">Choose a theme</h2>
             <p className="mt-1 text-sm text-slate-500">The selected theme shows its description and intended beneficiaries.</p>
@@ -141,7 +147,7 @@ export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPage
                 <div className="mt-4 border-t border-blue-100 pt-4">
                   <p className="text-xs font-bold uppercase tracking-wide text-slate-500">Who can benefit</p>
                   <p className="mt-1 text-sm leading-6 text-slate-700">{selectedTheme.beneficiaries}</p>
-                </div>
+                </div>}
               </div>
             ) : (
               <div className="mt-5 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm leading-6 text-slate-500">Select a theme to view its description and intended beneficiaries.</div>

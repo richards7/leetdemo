@@ -29,6 +29,7 @@ const ALLOWED_THEMES = new Set([
   "Branding and money making",
   "Everyday life",
 ]);
+const SUBMISSIONS_CLOSED_MESSAGE = "Time is up! The 36-hour hackathon submission period has ended, and project proposals are no longer being accepted.";
 
 function getText(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
@@ -44,6 +45,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.setHeader("Allow", "POST, OPTIONS");
     return res.status(405).json({ success: false, error: "Method not allowed." });
   }
+  return res.status(403).json({ success: false, error: SUBMISSIONS_CLOSED_MESSAGE });
 
   const body = req.body && typeof req.body === "object" ? req.body as Record<string, unknown> : {};
   const submission: StudentProjectSubmission = {
