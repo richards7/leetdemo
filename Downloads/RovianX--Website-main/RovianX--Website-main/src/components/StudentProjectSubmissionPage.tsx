@@ -147,7 +147,7 @@ export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPage
                 <div className="mt-4 border-t border-blue-100 pt-4">
                   <p className="text-xs font-bold uppercase tracking-wide text-slate-500">Who can benefit</p>
                   <p className="mt-1 text-sm leading-6 text-slate-700">{selectedTheme.beneficiaries}</p>
-                </div>}
+                </div>
               </div>
             ) : (
               <div className="mt-5 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm leading-6 text-slate-500">Select a theme to view its description and intended beneficiaries.</div>
@@ -212,7 +212,7 @@ export const StudentProjectSubmissionPage: React.FC<StudentProjectSubmissionPage
               {submitting ? <><Loader2 className="h-4 w-4 animate-spin" />Submitting proposal...</> : <>Submit Project <Send className="h-4 w-4" /></>}
             </button>
           </form>
-        </div>
+        </div>}
       </div>
     </section>
   );
